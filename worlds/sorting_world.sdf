@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<sdf version="1.9">
+  <world name="sorting_world">
+
+    <!-- Physics -->
+    <plugin filename="gz-sim-physics-system" name="gz::sim::systems::Physics"/>
+    <plugin filename="gz-sim-user-commands-system" name="gz::sim::systems::UserCommands"/>
+    <plugin filename="gz-sim-scene-broadcaster-system" name="gz::sim::systems::SceneBroadcaster"/>
+    <plugin filename="gz-sim-sensors-system" name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <gravity>0 0 -9.81</gravity>
+
+    <!-- Lighting -->
+    <light type="directional" name="sun">
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <direction>-0.5 0.5 -1</direction>
+    </light>
+
+    <!-- Ground -->
+    <model name="ground">
+      <static>true</static>
+      <pose>0 -1 -0.05 0 0 0</pose>
+      <link name="ground_link">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>5 5 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>5 5 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.65 0.65 0.65 1</ambient>
+            <diffuse>0.65 0.65 0.65 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- Conveyor -->
+    <model name="conveyor">
+      <static>true</static>
+      <!-- Belt top is at z = 0.50 -->
+      <pose>0.5 0 0.45 0 0 0</pose>
+      <link name="belt">
+        <collision name="collision">
+          <geometry>
+            <box>
+              <size>0.5 2.0 0.1</size>
+            </box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box>
+              <size>0.5 2.0 0.1</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.08 0.08 0.08 1</ambient>
+            <diffuse>0.12 0.12 0.12 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+
+    <!-- Overhead RGB camera -->
+    <model name="sorting_camera">
+      <static>true</static>
+      <!-- Camera above conveyor, looking downward -->
+      <pose>0.5 0 1.5 0 1.5708 0</pose>
+      <link name="camera_link">
+        <visual name="camera_body">
+          <geometry>
+            <box>
+              <size>0.08 0.08 0.05</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.05 0.05 0.05 1</ambient>
+            <diffuse>0.05 0.05 0.05 1</diffuse>
+          </material>
+        </visual>
+        <sensor name="rgb_camera" type="camera">
+          <always_on>true</always_on>
+          <update_rate>15</update_rate>
+          <topic>/sorting_camera/image</topic>
+          <camera>
+            <horizontal_fov>1.047</horizontal_fov>
+            <image>
+              <width>640</width>
+              <height>480</height>
+              <format>R8G8B8</format>
+            </image>
+            <clip>
+              <near>0.1</near>
+              <far>10</far>
+            </clip>
+          </camera>
+        </sensor>
+      </link>
+    </model>
+    
+    <!-- ========================================== -->
+    <!-- REJECT BIN / DEFECT AREA                   -->
+    <!-- ========================================== -->
+    <model name="blue_reject_bin">
+      <static>true</static>
+      <!--
+           Place beside the left end of conveyor,
+           close to the UR5 for a short placement path.
+      -->
+      <pose>0 0.6 0 0 0 0</pose>
+
+      <!-- Dark grey pedestal -->
+      <link name="support">
+        <visual name="support_visual">
+          <pose>0 0 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.30 0.30 0.50</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.20 0.20 0.20 1</ambient>
+            <diffuse>0.25 0.25 0.25 1</diffuse>
+          </material>
+        </visual>
+        <collision name="support_collision">
+          <pose>0 0 0.25 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.30 0.30 0.50</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+
+      <!-- Light grey / white reject tray -->
+      <link name="tray">
+        <!-- Floor -->
+        <visual name="tray_floor_visual">
+          <pose>0 0 0.52 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.36 0.36 0.04</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.80 0.80 0.80 1</ambient>
+            <diffuse>0.90 0.90 0.90 1</diffuse>
+          </material>
+        </visual>
+        <collision name="tray_floor_collision">
+          <pose>0 0 0.52 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.36 0.36 0.04</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <!-- Back wall -->
+        <visual name="back_wall_visual">
+          <pose>0 0.16 0.60 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.36 0.04 0.16</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.80 0.80 0.80 1</ambient>
+            <diffuse>0.90 0.90 0.90 1</diffuse>
+          </material>
+        </visual>
+        <collision name="back_wall_collision">
+          <pose>0 0.16 0.60 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.36 0.04 0.16</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <!-- Left wall -->
+        <visual name="left_wall_visual">
+          <pose>0.16 0 0.60 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.04 0.36 0.16</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.80 0.80 0.80 1</ambient>
+            <diffuse>0.90 0.90 0.90 1</diffuse>
+          </material>
+        </visual>
+        <collision name="left_wall_collision">
+          <pose>0.16 0 0.60 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.04 0.36 0.16</size>
+            </box>
+          </geometry>
+        </collision>
+
+        <!-- Right wall -->
+        <visual name="right_wall_visual">
+          <pose>-0.16 0 0.60 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.04 0.36 0.16</size>
+            </box>
+          </geometry>
+          <material>
+            <ambient>0.80 0.80 0.80 1</ambient>
+            <diffuse>0.90 0.90 0.90 1</diffuse>
+          </material>
+        </visual>
+        <collision name="right_wall_collision">
+          <pose>-0.16 0 0.60 0 0 0</pose>
+          <geometry>
+            <box>
+              <size>0.04 0.36 0.16</size>
+            </box>
+          </geometry>
+        </collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>
