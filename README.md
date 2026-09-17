@@ -192,25 +192,6 @@ No manual service calls are required during normal operation.
 
 ---
 
-## Author
-
-**Longkai Zhang**
-
-Computing Science Undergraduate  
-Griffith College Cork
-3:sorting_robot_controller
-Waits until both conditions are satisfied:
-/detected_color = BLUE
-and:
-/blue_pick_ready = true
-It then executes the complete UR5 rejection trajectory.
-The controller uses:
-/joint_trajectory_controller/follow_joint_trajectory
-
-4:grasp_controller
-Provides the simulated grasp interface:
-/grasp_blue
-It controls object attachment, release, deletion, dynamic respawning, and gravity-based reject-bin placement.
 
 Requirements
 The project was developed using:
