@@ -192,9 +192,3 @@ No manual service calls are required during normal operation.
 
 ---
 
-
-Future Improvements
-conveyor encoder-based tracking
-dynamic pick of moving products
-real UR5 / Robotiq hardware integration
-production statistics and monitoring dashboard
