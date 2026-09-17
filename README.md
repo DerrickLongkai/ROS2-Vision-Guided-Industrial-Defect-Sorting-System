@@ -20,13 +20,8 @@ Red and green products are treated as normal products and pass through the produ
 - Gazebo Sim industrial conveyor environment
 - RGB camera visual inspection
 - OpenCV colour detection
-- Automatic RED / GREEN / BLUE product generation
-- Red and green products automatically pass through
-- Blue defective products stop at a calibrated pick point
-- UR5 robotic arm control through `ros2_control`
 - Robotiq 2F-85 gripper simulation
-- Automatic pick-and-place defect rejection
-- Continuous production cycles
+
 
 ---
 
