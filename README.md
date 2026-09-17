@@ -193,50 +193,6 @@ No manual service calls are required during normal operation.
 ---
 
 
-Requirements
-The project was developed using:
-ROS 2 Jazzy
-Gazebo Sim
-Python 3
-OpenCV
-cv_bridge
-ros_gz_bridge
-ros_gz_interfaces
-ros2_control
-Universal Robots ROS 2 simulation packages
-Robotiq description package
-A working ROS 2 Jazzy and Gazebo Sim installation is required before building the package.
-
-Build
-
-Create a ROS 2 workspace and clone the repository into src:
-
-mkdir -p ~/ros2_sorting_ws/src
-cd ~/ros2_sorting_ws/src
-
-git clone https://github.com/DerrickLongkai/ROS2-Vision-Guided-Industrial-Defect-Sorting-System.git
-
-Build the workspace:
-
-cd ~/ros2_sorting_ws
-colcon build --symlink-install
-
-Source the workspace:
-
-source ~/ros2_sorting_ws/install/setup.bash
-
-Run
-
-Launch the complete system:
-
-ros2 launch industrial_sorting_sim sorting_system.launch.py
-
-When Gazebo opens, press Play.
-
-The complete system then runs automatically
-No manual service calls are required during normal operation.
-
-
 Future Improvements
 conveyor encoder-based tracking
 dynamic pick of moving products
